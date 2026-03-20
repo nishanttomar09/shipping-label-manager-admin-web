@@ -1,0 +1,55 @@
+{
+  "pageTitle": "Audit Logs - ShipLabel Admin",
+  "title": "Audit Logs",
+  "filters": {
+    "search": "Search by email or route...",
+    "action": "All Actions",
+    "entityType": "All Entity Types",
+    "outcome": "All Outcomes",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "success": "Success",
+    "failure": "Failure",
+    "reset": "Reset Filters"
+  },
+  "table": {
+    "timestamp": "Timestamp",
+    "user": "User",
+    "action": "Action",
+    "entityType": "Entity Type",
+    "route": "Route",
+    "status": "Status",
+    "duration": "Duration",
+    "caption": "System audit log entries"
+  },
+  "empty": {
+    "title": "No audit logs found",
+    "description": "No audit logs match your current filters.",
+    "noLogs": "No audit logs have been recorded yet."
+  },
+  "detail": {
+    "title": "Audit Log Detail",
+    "id": "Log ID",
+    "userId": "User ID",
+    "userEmail": "User Email",
+    "action": "Action",
+    "entityType": "Entity Type",
+    "entityId": "Entity ID",
+    "route": "Route",
+    "statusCode": "Status Code",
+    "duration": "Duration",
+    "timestamp": "Timestamp",
+    "requestBody": "Request Body",
+    "noRequestBody": "No request body",
+    "notApplicable": "N/A"
+  },
+  "pagination": {
+    "showing": "Showing {{from}}-{{to}} of {{total}}",
+    "previous": "Previous",
+    "next": "Next",
+    "perPage": "Per page"
+  },
+  "duration": {
+    "ms": "{{value}}ms"
+  }
+}

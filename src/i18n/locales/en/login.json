@@ -1,0 +1,45 @@
+{
+  "pageTitle": "Sign in - ShipLabel Admin",
+  "hero": {
+    "title": "Your admin\ncommand center.",
+    "description": "Manage users, control access, and review audit logs — all in one secure workspace."
+  },
+  "features": {
+    "userManagement": {
+      "title": "User Management",
+      "description": "Create, update, and manage user accounts and roles"
+    },
+    "auditLogs": {
+      "title": "Audit Logs",
+      "description": "Track every action with detailed activity logging"
+    },
+    "accessControl": {
+      "title": "Access Control",
+      "description": "Role-based permissions for secure operations"
+    }
+  },
+  "copyright": "\u00a9 {{year}} ShipLabel Admin",
+  "form": {
+    "heading": "Admin sign in",
+    "subheading": "Enter your admin credentials to continue",
+    "email": "Email address",
+    "emailPlaceholder": "admin@company.com",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "hidePassword": "Hide password",
+    "showPassword": "Show password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in\u2026"
+  },
+  "errors": {
+    "invalidCredentials": "Unable to sign in. Please check your credentials and try again.",
+    "accountDeactivated": "Your account has been deactivated. Please contact an administrator.",
+    "generic": "Something went wrong. Please try again."
+  },
+  "validation": {
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email address",
+    "passwordMin": "Password must be at least 8 characters"
+  },
+  "security": "Protected with enterprise-grade encryption"
+}

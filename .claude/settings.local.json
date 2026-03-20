@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm list:*)",
+      "Bash(npm install:*)",
+      "Bash(npx:*)",
+      "Bash(npm run:*)",
+      "Bash(cp \"@/components/ui/\"*.tsx src/components/ui/)",
+      "Bash(rm -rf \"@\")",
+      "Bash(ls src/components/ui/*.tsx)",
+      "Bash(echo \"EXIT_CODE=$?\")",
+      "Bash(echo \"EXIT=$?\")"
+    ]
+  }
+}

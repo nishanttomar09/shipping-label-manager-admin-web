@@ -1,0 +1,51 @@
+{
+  "appName": "ShipLabel Admin",
+  "nav": {
+    "users": "Users",
+    "auditLogs": "Audit Logs",
+    "dashboard": "Dashboard",
+    "main": "Main navigation"
+  },
+  "breadcrumb": {
+    "details": "Details",
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "auditLogs": "Audit Logs"
+  },
+  "openNavigation": "Open navigation",
+  "logOut": "Log out",
+  "roles": {
+    "ADMIN": "Admin",
+    "OPERATOR": "Operator",
+    "VIEWER": "Viewer"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "notFound": {
+    "pageTitle": "Not Found - ShipLabel Admin",
+    "heading": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "backLink": "Back to Users"
+  },
+  "skipToContent": "Skip to main content",
+  "toggleTheme": "Toggle theme",
+  "close": "Close",
+  "resultsLoaded_one": "{{count}} result loaded",
+  "resultsLoaded_other": "{{count}} results loaded",
+  "permissions": {
+    "adminRole": "Admin",
+    "operatorRole": "Operator",
+    "viewerRole": "Viewer"
+  },
+  "dashboard": {
+    "pageTitle": "Dashboard - ShipLabel Admin",
+    "welcome": "Welcome back",
+    "description": "Manage users and review audit logs from your admin dashboard.",
+    "manageUsers": "Manage Users",
+    "manageUsersDesc": "Create, update, and manage user accounts and roles.",
+    "viewAuditLogs": "View Audit Logs",
+    "viewAuditLogsDesc": "Review system activity and track user actions."
+  }
+}

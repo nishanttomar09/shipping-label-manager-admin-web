@@ -1,0 +1,71 @@
+{
+  "pageTitle": "Users - ShipLabel Admin",
+  "title": "Users",
+  "createUser": "Create User",
+  "filters": {
+    "search": "Search users...",
+    "role": "All Roles",
+    "status": "All Status",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "table": {
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "created": "Created",
+    "actions": "Actions",
+    "you": "(You)",
+    "edit": "Edit user",
+    "caption": "List of all users in the system"
+  },
+  "empty": {
+    "title": "No users found",
+    "description": "No users match your current filters.",
+    "noUsers": "No users have been created yet.",
+    "createFirst": "Create the first user to get started."
+  },
+  "createDialog": {
+    "title": "Create User",
+    "description": "Add a new user to the system.",
+    "name": "Full name",
+    "namePlaceholder": "John Doe",
+    "email": "Email address",
+    "emailPlaceholder": "user@company.com",
+    "password": "Password",
+    "passwordPlaceholder": "Enter a password",
+    "role": "Role",
+    "selectRole": "Select a role",
+    "cancel": "Cancel",
+    "create": "Create User",
+    "creating": "Creating...",
+    "success": "User created successfully",
+    "duplicateEmail": "A user with this email already exists"
+  },
+  "updateDialog": {
+    "title": "Update User",
+    "description": "Update role and status for {{name}}.",
+    "role": "Role",
+    "selectRole": "Select a role",
+    "active": "Active",
+    "activeDescription": "User can sign in and access the system",
+    "cancel": "Cancel",
+    "save": "Save Changes",
+    "saving": "Saving...",
+    "success": "User updated successfully",
+    "confirmDemotion": "Are you sure you want to change this admin's role? They will lose admin privileges.",
+    "confirmDeactivation": "Are you sure you want to deactivate this user? They will no longer be able to sign in.",
+    "lastAdminError": "Cannot change role. At least one admin must exist in the system.",
+    "selfModifyError": "You cannot modify your own account."
+  },
+  "validation": {
+    "nameRequired": "Name is required",
+    "nameMin": "Name must be at least 2 characters",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email address",
+    "passwordRequired": "Password is required",
+    "passwordMin": "Password must be at least 8 characters",
+    "roleRequired": "Role is required"
+  }
+}
