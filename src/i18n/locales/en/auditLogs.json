@@ -1,6 +1,12 @@
 {
   "pageTitle": "Audit Logs - ShipLabel Admin",
   "title": "Audit Logs",
+  "subtitle": "Review system activity and track user actions",
+  "search": "Search by email or route\u2026",
+  "searchLabel": "Search audit logs",
+  "allActions": "All Actions",
+  "allEntityTypes": "All Entity Types",
+  "allOutcomes": "All Outcomes",
   "filters": {
     "search": "Search by email or route...",
     "action": "All Actions",
@@ -20,10 +26,13 @@
     "route": "Route",
     "status": "Status",
     "duration": "Duration",
-    "caption": "System audit log entries"
+    "caption": "System audit log entries",
+    "viewDetails": "View audit log details"
   },
   "empty": {
     "title": "No audit logs found",
+    "filtered": "Try adjusting your search or filter",
+    "none": "No audit logs have been recorded yet",
     "description": "No audit logs match your current filters.",
     "noLogs": "No audit logs have been recorded yet."
   },
@@ -41,7 +50,13 @@
     "timestamp": "Timestamp",
     "requestBody": "Request Body",
     "noRequestBody": "No request body",
-    "notApplicable": "N/A"
+    "errorMessage": "Error Message",
+    "ipAddress": "IP Address",
+    "userAgent": "User Agent",
+    "notApplicable": "N/A",
+    "backTo": "Back to Audit Logs",
+    "notFound": "Audit log not found",
+    "notFoundDescription": "The audit log you're looking for doesn't exist or has been removed."
   },
   "pagination": {
     "showing": "Showing {{from}}-{{to}} of {{total}}",

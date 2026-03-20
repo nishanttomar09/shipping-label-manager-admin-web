@@ -2,7 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/use-auth';
 import { useUsers } from '@/hooks/use-users';
-import type { User, UserFilters, UserRole } from '@/types';
+import { UserRole } from '@/types';
+import type { User, UserFilters } from '@/types';
 import { CreateUserDialog } from '@/components/users/create-user-dialog';
 import { UpdateUserDialog } from '@/components/users/update-user-dialog';
 import { UserRoleBadge } from '@/components/users/user-role-badge';
@@ -19,6 +20,7 @@ import {
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -30,11 +32,10 @@ import { formatDate } from '@/lib/utils';
 
 export default function UsersPage() {
   const { t, i18n } = useTranslation('users');
+  const { t: tc } = useTranslation();
   const { user: currentUser } = useAuth();
-  const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [roleFilter, setRoleFilter] = useState<string>('all');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [searchInput, setSearchInput] = useState('');
+  const [filters, setFilters] = useState<UserFilters>({});
   const [createOpen, setCreateOpen] = useState(false);
   const [editUser, setEditUser] = useState<User | null>(null);
 
@@ -44,110 +45,160 @@ export default function UsersPage() {
 
   // Debounce search
   useEffect(() => {
-    const timer = setTimeout(() => setDebouncedSearch(search), 300);
+    const timer = setTimeout(() => {
+      setFilters((prev) => ({ ...prev, search: searchInput || undefined }));
+    }, 300);
     return () => clearTimeout(timer);
-  }, [search]);
+  }, [searchInput]);
 
-  const filters = useMemo<UserFilters>(() => {
-    const f: UserFilters = {};
-    if (debouncedSearch) f.search = debouncedSearch;
-    if (roleFilter !== 'all') f.role = roleFilter as UserRole;
-    if (statusFilter !== 'all') f.isActive = statusFilter;
-    return f;
-  }, [debouncedSearch, roleFilter, statusFilter]);
+  const stableFilters = useMemo(() => ({ ...filters }), [filters]);
+  const { data: users, isLoading, refetch } = useUsers(stableFilters);
 
-  const { data: users, isLoading, refetch } = useUsers(filters);
+  const stats = useMemo(() => {
+    if (!users) return null;
+    return {
+      total: users.length,
+      admins: users.filter((u) => u.role === UserRole.ADMIN).length,
+      operators: users.filter((u) => u.role === UserRole.OPERATOR).length,
+      viewers: users.filter((u) => u.role === UserRole.VIEWER).length,
+    };
+  }, [users]);
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight">{t('title')}</h1>
-        <Button onClick={() => setCreateOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
+    <div className="space-y-5">
+      {/* Page header */}
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-xl font-bold tracking-tight">{t('title')}</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">{t('subtitle')}</p>
+        </div>
+        <Button onClick={() => setCreateOpen(true)} size="sm" className="gap-1.5">
+          <Plus className="h-4 w-4" />
           {t('createUser')}
         </Button>
       </div>
 
+      {/* Inline stats */}
+      {stats && (
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
+          <span className="tabular-nums">
+            <span className="font-semibold">{stats.total}</span>
+            <span className="text-muted-foreground ml-1">{t('stats.total')}</span>
+          </span>
+          <span className="text-border">|</span>
+          <span className="tabular-nums">
+            <span className="font-semibold text-purple-600 dark:text-purple-400">{stats.admins}</span>
+            <span className="text-muted-foreground ml-1">{t('stats.admins')}</span>
+          </span>
+          <span className="text-border">|</span>
+          <span className="tabular-nums">
+            <span className="font-semibold text-blue-600 dark:text-blue-400">{stats.operators}</span>
+            <span className="text-muted-foreground ml-1">{t('stats.operators')}</span>
+          </span>
+          <span className="text-border">|</span>
+          <span className="tabular-nums">
+            <span className="font-semibold text-slate-600 dark:text-slate-400">{stats.viewers}</span>
+            <span className="text-muted-foreground ml-1">{t('stats.viewers')}</span>
+          </span>
+        </div>
+      )}
+
       {/* Filters */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="relative flex-1">
+      <div className="flex items-center gap-3">
+        <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder={t('filters.search')}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 h-10 text-sm"
-            aria-label={t('filters.search')}
+            placeholder={t('search')}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="pl-9 h-9"
+            aria-label={t('searchLabel')}
           />
         </div>
-        <Select value={roleFilter} onValueChange={setRoleFilter}>
-          <SelectTrigger className="w-[160px]">
-            <SelectValue placeholder={t('filters.role')} />
+        <Select
+          value={filters.role || 'ALL'}
+          onValueChange={(value: string) =>
+            setFilters((prev) => ({
+              ...prev,
+              role: value === 'ALL' ? undefined : (value as UserFilters['role']),
+            }))
+          }
+        >
+          <SelectTrigger className="w-44 h-9">
+            <SelectValue placeholder={t('filters.allRoles')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{t('filters.role')}</SelectItem>
+            <SelectItem value="ALL">{t('filters.allRoles')}</SelectItem>
             <SelectItem value="ADMIN">Admin</SelectItem>
             <SelectItem value="OPERATOR">Operator</SelectItem>
             <SelectItem value="VIEWER">Viewer</SelectItem>
           </SelectContent>
         </Select>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-[160px]">
-            <SelectValue placeholder={t('filters.status')} />
+        <Select
+          value={filters.isActive || 'ALL'}
+          onValueChange={(value: string) =>
+            setFilters((prev) => ({
+              ...prev,
+              isActive: value === 'ALL' ? undefined : value,
+            }))
+          }
+        >
+          <SelectTrigger className="w-44 h-9">
+            <SelectValue placeholder={t('filters.allStatuses')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{t('filters.status')}</SelectItem>
+            <SelectItem value="ALL">{t('filters.allStatuses')}</SelectItem>
             <SelectItem value="true">{t('filters.active')}</SelectItem>
             <SelectItem value="false">{t('filters.inactive')}</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      {/* SR result announcement */}
-      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
-        {!isLoading && t('resultsLoaded', { count: users.length, ns: 'common' })}
-      </div>
-
       {/* Table */}
-      {isLoading ? (
-        <div className="space-y-3">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={i} className="h-14 w-full rounded-lg" />
-          ))}
-        </div>
-      ) : users.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted text-muted-foreground mb-4">
-            <UsersIcon className="h-6 w-6" />
-          </div>
-          <h3 className="text-lg font-semibold">{t('empty.title')}</h3>
-          <p className="mt-1 text-sm text-muted-foreground max-w-sm">
-            {debouncedSearch || roleFilter !== 'all' || statusFilter !== 'all'
-              ? t('empty.description')
-              : t('empty.noUsers')}
-          </p>
-        </div>
-      ) : (
-        <div className="rounded-lg border">
-          <Table>
-            <caption className="sr-only">{t('table.caption')}</caption>
-            <TableHeader>
+      <div className="rounded-lg border overflow-hidden" aria-busy={isLoading}>
+        <Table>
+          <TableCaption className="sr-only">{t('table.caption')}</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="font-medium">{t('table.name')}</TableHead>
+              <TableHead className="font-medium">{t('table.email')}</TableHead>
+              <TableHead className="font-medium">{t('table.role')}</TableHead>
+              <TableHead className="font-medium">{t('table.status')}</TableHead>
+              <TableHead className="font-medium">{t('table.created')}</TableHead>
+              <TableHead className="w-10" />
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {isLoading ? (
+              Array.from({ length: 5 }).map((_, i) => (
+                <TableRow key={i}>
+                  {Array.from({ length: 6 }).map((_, j) => (
+                    <TableCell key={j}><Skeleton className="h-4 w-full" /></TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : users.length === 0 ? (
               <TableRow>
-                <TableHead>{t('table.name')}</TableHead>
-                <TableHead>{t('table.email')}</TableHead>
-                <TableHead>{t('table.role')}</TableHead>
-                <TableHead>{t('table.status')}</TableHead>
-                <TableHead>{t('table.created')}</TableHead>
-                <TableHead className="w-[80px]">{t('table.actions')}</TableHead>
+                <TableCell colSpan={6} className="h-48">
+                  <div className="flex flex-col items-center justify-center gap-3">
+                    <UsersIcon className="h-8 w-8 text-muted-foreground/40" />
+                    <div className="text-center">
+                      <p className="text-sm font-medium">{t('empty.title')}</p>
+                      <p className="text-sm text-muted-foreground mt-0.5">
+                        {searchInput || filters.role || filters.isActive
+                          ? t('empty.filtered')
+                          : t('empty.none')}
+                      </p>
+                    </div>
+                  </div>
+                </TableCell>
               </TableRow>
-            </TableHeader>
-            <TableBody>
-              {users.map((user) => {
+            ) : (
+              users.map((user) => {
                 const isCurrentUser = user.id === currentUser?.id;
                 return (
                   <TableRow key={user.id}>
-                    <TableCell className="font-medium">
+                    <TableCell className="py-1.5 font-medium">
                       {user.name}
                       {isCurrentUser && (
                         <span className="ml-2 text-xs text-muted-foreground">
@@ -155,29 +206,36 @@ export default function UsersPage() {
                         </span>
                       )}
                     </TableCell>
-                    <TableCell className="text-muted-foreground">{user.email}</TableCell>
-                    <TableCell><UserRoleBadge role={user.role} /></TableCell>
-                    <TableCell><UserStatusIndicator isActive={user.isActive} /></TableCell>
-                    <TableCell className="text-muted-foreground">
+                    <TableCell className="py-1.5 text-muted-foreground">{user.email}</TableCell>
+                    <TableCell className="py-1.5"><UserRoleBadge role={user.role} /></TableCell>
+                    <TableCell className="py-1.5"><UserStatusIndicator isActive={user.isActive} /></TableCell>
+                    <TableCell className="py-1.5 text-muted-foreground tabular-nums">
                       {formatDate(user.createdAt, i18n.language)}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="py-1.5">
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8"
+                        className="h-7 w-7"
                         onClick={() => setEditUser(user)}
                         disabled={isCurrentUser}
                         aria-label={t('table.edit')}
                       >
-                        <Pencil className="h-4 w-4" />
+                        <Pencil className="h-3.5 w-3.5" />
                       </Button>
                     </TableCell>
                   </TableRow>
                 );
-              })}
-            </TableBody>
-          </Table>
+              })
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Screen reader result count announcement */}
+      {!isLoading && users && (
+        <div role="status" className="sr-only">
+          {tc('resultsLoaded', { count: users.length })}
         </div>
       )}
 

@@ -113,7 +113,7 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
               id="create-name"
               placeholder={t('createDialog.namePlaceholder')}
               aria-invalid={errors.name ? 'true' : undefined}
-              className="h-10 text-sm"
+              className="h-9 text-sm"
               {...register('name')}
             />
             {errors.name && (
@@ -130,7 +130,7 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
               type="email"
               placeholder={t('createDialog.emailPlaceholder')}
               aria-invalid={errors.email ? 'true' : undefined}
-              className="h-10 text-sm"
+              className="h-9 text-sm"
               {...register('email')}
             />
             {errors.email && (
@@ -147,7 +147,7 @@ export function CreateUserDialog({ open, onOpenChange, onSuccess }: CreateUserDi
               type="password"
               placeholder={t('createDialog.passwordPlaceholder')}
               aria-invalid={errors.password ? 'true' : undefined}
-              className="h-10 text-sm"
+              className="h-9 text-sm"
               {...register('password')}
             />
             {errors.password && (

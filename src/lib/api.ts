@@ -77,16 +77,22 @@ export const usersApi = {
 };
 
 export const auditLogsApi = {
+  get: async (id: string) => {
+    const res = await api.get<ApiResponse<AuditLog>>(`/audit-logs/${id}`);
+    return res.data.data;
+  },
   list: async (filters?: AuditLogFilters) => {
     const params = new URLSearchParams();
-    if (filters?.search) params.set('search', filters.search);
+    if (filters?.userId) params.set('userId', filters.userId);
     if (filters?.action) params.set('action', filters.action);
     if (filters?.entityType) params.set('entityType', filters.entityType);
-    if (filters?.outcome) params.set('outcome', filters.outcome);
+    if (filters?.entityId) params.set('entityId', filters.entityId);
+    if (filters?.success !== undefined) params.set('success', String(filters.success));
+    if (filters?.search) params.set('search', filters.search);
     if (filters?.startDate) params.set('startDate', filters.startDate);
     if (filters?.endDate) params.set('endDate', filters.endDate);
     if (filters?.page) params.set('page', String(filters.page));
-    if (filters?.limit) params.set('limit', String(filters.limit));
+    if (filters?.perPage) params.set('perPage', String(filters.perPage));
     const res = await api.get<ApiResponse<AuditLog[]> & { meta: PaginationMeta }>('/audit-logs', { params });
     return { data: res.data.data, meta: res.data.meta as PaginationMeta };
   },

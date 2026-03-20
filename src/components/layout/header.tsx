@@ -40,6 +40,7 @@ export function Header() {
       return [{ label: t('breadcrumb.users') }];
     }
     if (parts[0] === 'audit-logs') {
+      if (parts[1]) return [{ label: t('breadcrumb.auditLogs'), to: '/audit-logs' }, { label: t('breadcrumb.details') }];
       return [{ label: t('breadcrumb.auditLogs') }];
     }
     return [{ label: t('breadcrumb.dashboard') }];
@@ -130,7 +131,7 @@ export function Header() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 gap-2 rounded-full pl-1.5 pr-2.5">
-              <Avatar className="h-6 w-6">
+              <Avatar className="h-6 w-6" size="sm">
                 <AvatarFallback className="bg-primary/10 text-primary text-[10px] font-semibold">
                   {initials}
                 </AvatarFallback>

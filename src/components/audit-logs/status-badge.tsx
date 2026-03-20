@@ -1,23 +1,23 @@
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-export function StatusBadge({ statusCode }: { statusCode: number }) {
-  const isSuccess = statusCode >= 200 && statusCode < 400;
+const statusStyles = {
+  success: {
+    className: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800',
+    dot: 'bg-emerald-500',
+  },
+  failure: {
+    className: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950 dark:text-red-300 dark:border-red-800',
+    dot: 'bg-red-500',
+  },
+};
+
+export function StatusBadge({ success, statusCode }: { success: boolean; statusCode: number }) {
+  const config = success ? statusStyles.success : statusStyles.failure;
 
   return (
-    <Badge
-      variant="outline"
-      className={
-        isSuccess
-          ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
-          : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
-      }
-    >
-      {isSuccess ? (
-        <CheckCircle className="mr-1 h-3 w-3" />
-      ) : (
-        <XCircle className="mr-1 h-3 w-3" />
-      )}
+    <Badge variant="outline" className={cn('gap-1.5 font-medium', config.className)}>
+      <span className={cn('h-1.5 w-1.5 rounded-full', config.dot)} />
       {statusCode}
     </Badge>
   );

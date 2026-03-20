@@ -1,8 +1,19 @@
 {
   "pageTitle": "Users - ShipLabel Admin",
   "title": "Users",
+  "subtitle": "Manage user accounts and permissions",
   "createUser": "Create User",
+  "stats": {
+    "total": "total",
+    "admins": "admins",
+    "operators": "operators",
+    "viewers": "viewers"
+  },
+  "search": "Search by name or email\u2026",
+  "searchLabel": "Search users",
   "filters": {
+    "allRoles": "All Roles",
+    "allStatuses": "All Status",
     "search": "Search users...",
     "role": "All Roles",
     "status": "All Status",
@@ -22,6 +33,8 @@
   },
   "empty": {
     "title": "No users found",
+    "filtered": "Try adjusting your search or filter",
+    "none": "No users have been created yet",
     "description": "No users match your current filters.",
     "noUsers": "No users have been created yet.",
     "createFirst": "Create the first user to get started."

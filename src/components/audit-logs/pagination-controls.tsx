@@ -19,8 +19,8 @@ interface PaginationControlsProps {
 export function PaginationControls({ meta, onPageChange, onLimitChange }: PaginationControlsProps) {
   const { t } = useTranslation('auditLogs');
 
-  const from = (meta.page - 1) * meta.limit + 1;
-  const to = Math.min(meta.page * meta.limit, meta.total);
+  const from = (meta.page - 1) * meta.perPage + 1;
+  const to = Math.min(meta.page * meta.perPage, meta.total);
 
   return (
     <div className="flex items-center justify-between pt-4">
@@ -32,7 +32,7 @@ export function PaginationControls({ meta, onPageChange, onLimitChange }: Pagina
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">{t('pagination.perPage')}</span>
           <Select
-            value={String(meta.limit)}
+            value={String(meta.perPage)}
             onValueChange={(val: string) => onLimitChange(Number(val))}
           >
             <SelectTrigger className="h-8 w-[70px]">

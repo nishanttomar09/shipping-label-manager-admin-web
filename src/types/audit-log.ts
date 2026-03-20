@@ -6,19 +6,25 @@ export interface AuditLog {
   entityType: string;
   entityId: string | null;
   route: string;
-  statusCode: number;
-  duration: number;
   requestBody: Record<string, unknown> | null;
+  statusCode: number;
+  success: boolean;
+  errorMessage: string | null;
+  ipAddress: string;
+  userAgent: string;
+  durationMs: number;
   createdAt: string;
 }
 
 export interface AuditLogFilters {
-  search?: string;
+  userId?: string;
   action?: string;
   entityType?: string;
-  outcome?: string;
+  entityId?: string;
+  success?: boolean;
+  search?: string;
   startDate?: string;
   endDate?: string;
   page?: number;
-  limit?: number;
+  perPage?: number;
 }

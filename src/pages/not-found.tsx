@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { ShieldCheck } from 'lucide-react';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { ArrowLeft } from 'lucide-react';
 
 export default function NotFoundPage() {
   const { t } = useTranslation();
@@ -12,16 +13,24 @@ export default function NotFoundPage() {
   }, [t]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background px-4">
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-        <ShieldCheck className="h-6 w-6" />
+    <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background px-6">
+      <div className="absolute right-4 top-4">
+        <ThemeToggle />
       </div>
-      <h1 className="text-2xl font-bold">{t('notFound.heading')}</h1>
-      <p className="text-muted-foreground text-center max-w-md">
-        {t('notFound.description')}
-      </p>
-      <Button asChild>
-        <Link to="/users">{t('notFound.backLink')}</Link>
+
+      <div className="text-center">
+        <p className="text-6xl font-bold tracking-tighter text-primary tabular-nums">404</p>
+        <h1 className="mt-3 text-lg font-semibold">{t('notFound.heading')}</h1>
+        <p className="mt-1.5 text-sm text-muted-foreground max-w-xs">
+          {t('notFound.description')}
+        </p>
+      </div>
+
+      <Button asChild variant="outline" size="sm" className="gap-1.5">
+        <Link to="/users">
+          <ArrowLeft className="h-4 w-4" />
+          {t('notFound.backLink')}
+        </Link>
       </Button>
     </div>
   );

@@ -14,12 +14,12 @@ export default function DashboardPage() {
   }, [t]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">
+        <h1 className="text-xl font-bold tracking-tight">
           {t('dashboard.welcome')}, {user?.name}
         </h1>
-        <p className="text-muted-foreground mt-1">
+        <p className="text-sm text-muted-foreground mt-0.5">
           {t('dashboard.description')}
         </p>
       </div>

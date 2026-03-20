@@ -9,6 +9,7 @@ import NotFoundPage from '@/pages/not-found';
 import DashboardPage from '@/pages/dashboard';
 import UsersPage from '@/pages/users/index';
 import AuditLogsPage from '@/pages/audit-logs/index';
+import AuditLogDetailPage from '@/pages/audit-logs/[id]';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
                 <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/users" element={<UsersPage />} />
                 <Route path="/audit-logs" element={<AuditLogsPage />} />
+                <Route path="/audit-logs/:id" element={<AuditLogDetailPage />} />
               </Route>
             </Route>
             <Route path="*" element={<NotFoundPage />} />

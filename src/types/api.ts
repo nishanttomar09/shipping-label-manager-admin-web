@@ -17,6 +17,6 @@ export interface ApiError {
 export interface PaginationMeta {
   total: number;
   page: number;
-  limit: number;
+  perPage: number;
   totalPages: number;
 }
